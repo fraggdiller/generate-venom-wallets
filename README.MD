@@ -18,7 +18,7 @@ npm i
 
 or
 ```
-npm i @eversdk/core@1.44.1 @eversdk/lib-node@1.44.1 everscale-standalone-client@2.1.19
+npm i @eversdk/core@1.44.1 @eversdk/lib-node@1.44.1
 ```
 
 ## Wallet generator

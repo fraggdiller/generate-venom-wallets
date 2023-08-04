@@ -9,7 +9,6 @@ For the code to work, you need to install the following dependencies:
 
 - @eversdk/core - 1.44.1
 - @eversdk/lib-node - 1.44.1
-- everscale-standalone-client - 2.1.19
 
 You can install it using:
 ```

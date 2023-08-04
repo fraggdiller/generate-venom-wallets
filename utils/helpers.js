@@ -1,5 +1,26 @@
-import { EverWalletAccount } from "everscale-standalone-client/nodejs.js";
-import { cryptoModule, close } from "./Client.js";
+// helpers.js
+import { client, cryptoModule } from "./Client.js";
+import { params, walletCode } from "./constants.js";
+
+
+const getInitData = async (publicKey) => {
+    return (await client.abi.encode_boc({
+        params: params,
+        data: {
+            "publicKey": `0x`+publicKey,
+            "timestamp": 0
+        }
+    })).boc;
+}
+
+
+const getStateInit = async (initData) => {
+    return (await client.boc.encode_state_init({
+        code: walletCode,
+        data: initData
+    })).state_init;
+}
+
 
 export const computePKeys = async (mnemonic) => {
     const deriveParams = {
@@ -8,17 +29,13 @@ export const computePKeys = async (mnemonic) => {
     };
 
     const keyPair = await cryptoModule.mnemonic_derive_sign_keys(deriveParams)
-    const publicKey = keyPair.public;
-    const privateKey = keyPair.secret;
-    await close()
-    return { keyPair, publicKey, privateKey };
+    return { keyPair };
 };
 
 
-export const getAddressFromPublicKey = async (publicKey) => {
-    const account = await EverWalletAccount.fromPubkey({
-        publicKey: publicKey,
-        workchain: 0,
-    });
-    return account.address._address;
+export const calculateVenomAddress = async (publicKey) => {
+    const initData = await getInitData(publicKey);
+    const stateInit = await getStateInit(initData)
+
+    return `0:` + (await client.boc.get_boc_hash({boc: stateInit})).hash
 };

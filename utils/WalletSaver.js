@@ -20,6 +20,6 @@ export class WalletSaver {
         fs.writeFileSync(path.join(dataFolderPath, `${prefix}_private_keys.txt`), privateKeysData);
         fs.writeFileSync(path.join(dataFolderPath, `${prefix}_public_keys.txt`), publicKeysData);
 
-        console.log(`Wallets generated and saved to files with prefix "${prefix}" successfully.`);
+        console.log("Venom wallets successfully generated and saved to data folder.");
     }
 }
